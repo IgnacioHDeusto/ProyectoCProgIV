@@ -13,17 +13,14 @@ public:
 	menu();
 	virtual ~menu();
 
-	char MenuGestor();
-
 	char mostrarMenu();
-
 	char menuCliente();
-
-	char menuAplicacionGestor();
-
 	char menuAplicacionCliente();
+	void menuInicioSesionCliente();
+	void menuAnadirProductoCliente();
+	char menuCarrito();
+	void menuCrearCuentaCliente();
 
+#endif
 
 };
-
-#endif /* MENUS_MENU_H_ */
