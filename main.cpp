@@ -15,27 +15,11 @@ char sendBuff[512], recvBuff[512];
 
 #include <iostream>
 using namespace std;
-printf("\n");
-	printf("------------------\n");
-    printf("INICIO DE SESION CLIENTE\n");
-    printf("------------------\n");
-    printf("Nombre de usuario:\n");
-    fflush(stdout);
-    char linea[20];
-    fgets(linea, 20, stdin);
-    printf("Constraseña:\n");
-    printf("\n");
-    fflush(stdout);
-    char linea1[20];
-    fgets(linea1, 20,stdin);
-void menuInicioSesion(){
-	cout<<"------------------"<<endl<<"INICIO DE SESION CLIENTE"<<endl << "------------------";
 
-}
 
 void menuCliente()
 {
-	cout<<"------------------"<<endl<<"DEUSTO IMPERIO MODA"<<endl << "------------------";
+	cout<<"------------------"<<endl<<"DEUSTO IMPERIO MODA"<<endl << "------------------" << endl;
 	cout<<"1. Iniciar Sesion"<<endl;
 	cout<<"2. Registrarse"<<endl;
 	cout<<"0. Salir"<<endl;
@@ -48,10 +32,10 @@ void menuCliente()
 
 	if(opcion == 1)
 	{
-		menuInicioSesionCliente();
+//		menuInicioSesionCliente();
 	} else if(opcion == 2)
 	{
-		menuCrearCuentaCliente();
+//		menuCrearCuentaCliente();
 	} else if(opcion == 0)
 	{
 		strcpy(sendBuff, "EXIT");
@@ -62,6 +46,12 @@ void menuCliente()
 		menuCliente();
 	}
 }
+
+void menuInicioSesionCliente(){
+	cout<<"------------------"<<endl<<"INICIO DE SESION CLIENTE"<<endl << "------------------" << endl;
+
+}
+
 
 int main(){
 	WSADATA wsaData;
@@ -104,101 +94,101 @@ int main(){
 		closesocket(s);
 		WSACleanup();
 }
-void main2(void) {
-	char opcion;
-	char opcion2;
-	char opcion3;
-	int opcionInicioSesionGestor;
-
-do{
-		opcion2 = menuCliente();
-		switch(opcion2 ){
-		case '1':
-			//Inicio sesion cliente
-			menuInicioSesionCliente();
-
-			//menuAplicacionCliente();
-
-			do{
-				opcion3 = menuAplicacionCliente();
-
-				switch(opcion3){
-
-				case '1':
-					//añadir producto al carrito
-
-					menuAnadirProductoCliente();
-					break;
-
-				case '2':
-					//Ver mi carrito
-					//imprimirCarrito(c);
-					printf("Se imprime el carrito \n");
-					break;
-//							//funcion
-//							do{
-//								opncion4 = funcion
-//										switch(opcion4){
-//										case '1':
-//											//CONFIRMAR
-									//FUNCION CONFIRMAR
-//										case '2';
-//											//ELIMINAR PROD
-										//FUNCION ELIMINAR
-//													do{
-//														opncion5 = funcion
-//														switch(opcion4){
-//															//funcion eliminar
-//														}
-//													}while(opcion != 'q');
+//void main2(void) {
+//	char opcion;
+//	char opcion2;
+//	char opcion3;
+//	int opcionInicioSesionGestor;
 //
-//										}
-//							}while(opcion != 'q');
-
-				case '3':
-					//Lista de mis pedidos
-					printf("Se imprimen los pedidos \n");
-					break;
-
-					//funcion
-					//							do{
-					//								opncion4 = funcion
-					//										switch(opcion4){
-					//										case '1':
-					//											//IMPRIMIR LISTA DE PEDIDOS
-
-					//										case '2';
-					//											//ELIMINAR PEDIDO
-																	//FUNCION ELIMINAR
-					//													do{
-					//														opncion5 = funcion
-					//														switch(opcion4){
-					//															//funcion eliminar
-					//														}
-					//													}while(opcion != 'q');
-					//
-					//										}
-					//							}while(opcion != 'q');
-
-
-				case 'q':
-					break;
-
-				}
-
-
-
-			}while(opcion3 != 'q');
-			break;
-
-		case '2':
-			//Crear cuenta de cliente
-			menuCrearCuentaCliente();
-
-		case 'q':
-			break;
-		}
-
-	//break;
-	}while(opcion2 != 'q');
-}
+//do{
+//		opcion2 = menuCliente();
+//		switch(opcion2 ){
+//		case '1':
+//			//Inicio sesion cliente
+//			menuInicioSesionCliente();
+//
+//			//menuAplicacionCliente();
+//
+//			do{
+//				opcion3 = menuAplicacionCliente();
+//
+//				switch(opcion3){
+//
+//				case '1':
+//					//añadir producto al carrito
+//
+//					menuAnadirProductoCliente();
+//					break;
+//
+//				case '2':
+//					//Ver mi carrito
+//					//imprimirCarrito(c);
+//					printf("Se imprime el carrito \n");
+//					break;
+////							//funcion
+////							do{
+////								opncion4 = funcion
+////										switch(opcion4){
+////										case '1':
+////											//CONFIRMAR
+//									//FUNCION CONFIRMAR
+////										case '2';
+////											//ELIMINAR PROD
+//										//FUNCION ELIMINAR
+////													do{
+////														opncion5 = funcion
+////														switch(opcion4){
+////															//funcion eliminar
+////														}
+////													}while(opcion != 'q');
+////
+////										}
+////							}while(opcion != 'q');
+//
+//				case '3':
+//					//Lista de mis pedidos
+//					printf("Se imprimen los pedidos \n");
+//					break;
+//
+//					//funcion
+//					//							do{
+//					//								opncion4 = funcion
+//					//										switch(opcion4){
+//					//										case '1':
+//					//											//IMPRIMIR LISTA DE PEDIDOS
+//
+//					//										case '2';
+//					//											//ELIMINAR PEDIDO
+//																	//FUNCION ELIMINAR
+//					//													do{
+//					//														opncion5 = funcion
+//					//														switch(opcion4){
+//					//															//funcion eliminar
+//					//														}
+//					//													}while(opcion != 'q');
+//					//
+//					//										}
+//					//							}while(opcion != 'q');
+//
+//
+//				case 'q':
+//					break;
+//
+//				}
+//
+//
+//
+//			}while(opcion3 != 'q');
+//			break;
+//
+//		case '2':
+//			//Crear cuenta de cliente
+//			menuCrearCuentaCliente();
+//
+//		case 'q':
+//			break;
+//		}
+//
+//	//break;
+//	}while(opcion2 != 'q');
+//}
