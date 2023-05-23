@@ -1,34 +1,86 @@
 #include <string.h>
 #include "menus/menu.h"
-#include <string.h>
+#include <iostream>
+using namespace std;
+#include <stdio.h>
+#include <winsock2.h>
+#include <stdlib.h>
+
+
+#define SERVER_IP "127.0.0.1"
+#define SERVER_PORT 6000
+
+SOCKET s;
+char sendBuff[512], recvBuff[512];
+
 #include <iostream>
 using namespace std;
 
-int main(void) {
+int main(){
+	WSADATA wsaData;
+	struct sockaddr_in server;
+	printf("\nInitialising Winsock...\n");
+		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+			printf("Failed. Error Code : %d", WSAGetLastError());
+			return -1;
+		}
+
+		printf("Initialised.\n");
+
+		//SOCKET creation
+		if ((s = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+			printf("Could not create socket : %d", WSAGetLastError());
+			WSACleanup();
+			return -1;
+		}
+
+		printf("Socket created.\n");
+
+		server.sin_addr.s_addr = inet_addr(SERVER_IP);
+		server.sin_family = AF_INET;
+		server.sin_port = htons(SERVER_PORT);
+
+		//CONNECT to remote server
+		if (connect(s, (struct sockaddr*) &server, sizeof(server)) == SOCKET_ERROR) {
+			printf("Connection error: %d", WSAGetLastError());
+			closesocket(s);
+			WSACleanup();
+			return -1;
+		}
+
+		printf("Connection stablished with: %s (%d)\n", inet_ntoa(server.sin_addr),
+		ntohs(server.sin_port));
+
+		// SEND and RECEIVE data
+
+		// CLOSING the socket and cleaning Winsock...
+		closesocket(s);
+		WSACleanup();
+}
+void main2(void) {
 	char opcion;
 	char opcion2;
 	char opcion3;
-	menu m;
 	int opcionInicioSesionGestor;
 
 do{
-		opcion2 = m.menuCliente();
+		opcion2 = menuCliente();
 		switch(opcion2 ){
 		case '1':
 			//Inicio sesion cliente
-			m.menuInicioSesionCliente();
+			menuInicioSesionCliente();
 
 			//menuAplicacionCliente();
 
 			do{
-				opcion3 = m.menuAplicacionCliente();
+				opcion3 = menuAplicacionCliente();
 
 				switch(opcion3){
 
 				case '1':
 					//añadir producto al carrito
 
-					m.menuAnadirProductoCliente();
+					menuAnadirProductoCliente();
 					break;
 
 				case '2':
@@ -94,7 +146,7 @@ do{
 
 		case '2':
 			//Crear cuenta de cliente
-			m.menuCrearCuentaCliente();
+			menuCrearCuentaCliente();
 
 		case 'q':
 			break;

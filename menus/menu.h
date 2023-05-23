@@ -8,19 +8,12 @@
 #ifndef MENUS_MENU_H_
 #define MENUS_MENU_H_
 
-class menu {
-public:
-	menu();
-	virtual ~menu();
-
-	char mostrarMenu();
-	char menuCliente();
-	char menuAplicacionCliente();
-	void menuInicioSesionCliente();
-	void menuAnadirProductoCliente();
-	char menuCarrito();
-	void menuCrearCuentaCliente();
+char mostrarMenu();
+char menuCliente();
+char menuAplicacionCliente();
+void menuInicioSesionCliente();
+void menuAnadirProductoCliente();
+char menuCarrito();
+void menuCrearCuentaCliente();
 
 #endif
-
-};
