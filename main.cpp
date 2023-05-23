@@ -1,10 +1,10 @@
-#include <string.h>
 #include "menus/menu.h"
 #include <iostream>
 using namespace std;
 #include <stdio.h>
+#include <string.h>
 #include <winsock2.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 
 
 #define SERVER_IP "127.0.0.1"
@@ -15,6 +15,53 @@ char sendBuff[512], recvBuff[512];
 
 #include <iostream>
 using namespace std;
+printf("\n");
+	printf("------------------\n");
+    printf("INICIO DE SESION CLIENTE\n");
+    printf("------------------\n");
+    printf("Nombre de usuario:\n");
+    fflush(stdout);
+    char linea[20];
+    fgets(linea, 20, stdin);
+    printf("Constraseña:\n");
+    printf("\n");
+    fflush(stdout);
+    char linea1[20];
+    fgets(linea1, 20,stdin);
+void menuInicioSesion(){
+	cout<<"------------------"<<endl<<"INICIO DE SESION CLIENTE"<<endl << "------------------";
+
+}
+
+void menuCliente()
+{
+	cout<<"------------------"<<endl<<"DEUSTO IMPERIO MODA"<<endl << "------------------";
+	cout<<"1. Iniciar Sesion"<<endl;
+	cout<<"2. Registrarse"<<endl;
+	cout<<"0. Salir"<<endl;
+	cout<<"Opcion:  ";
+
+//	fflush(stdout);
+	int opcion;
+	cin>>opcion;
+//	fflush(stdout);
+
+	if(opcion == 1)
+	{
+		menuInicioSesionCliente();
+	} else if(opcion == 2)
+	{
+		menuCrearCuentaCliente();
+	} else if(opcion == 0)
+	{
+		strcpy(sendBuff, "EXIT");
+		send(s, sendBuff, sizeof(sendBuff), 0);
+		exit(-1);
+
+	}else{
+		menuCliente();
+	}
+}
 
 int main(){
 	WSADATA wsaData;
@@ -52,7 +99,7 @@ int main(){
 		ntohs(server.sin_port));
 
 		// SEND and RECEIVE data
-
+		menuCliente();
 		// CLOSING the socket and cleaning Winsock...
 		closesocket(s);
 		WSACleanup();

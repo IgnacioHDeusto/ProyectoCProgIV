@@ -3,31 +3,6 @@
 #include <iostream>
 using namespace std;
 
-menu::menu() {
-	// TODO Auto-generated constructor stub
-
-}
-
-menu::~menu() {
-	// TODO Auto-generated destructor stub
-}
-
-char menu::mostrarMenu(){
-
-	printf("------------------\n");
-	printf("DEUSTO IMPERIO MODA\n");
-    printf("------------------\n");
-    printf("1. Aplicacion cliente \n");
-    printf("2. Aplicacion trabajador \n");
-    printf("Pulsar 'q' para salir \n");
-    printf("\n");
-    printf("Opcion: ");
-    fflush(stdout);
-    char linea[10];
-    fgets(linea, 10,stdin);
-    return linea[0];
-}
-
 void menu::menuInicioSesionCliente(){
 	printf("\n");
 	printf("------------------\n");
@@ -46,22 +21,6 @@ void menu::menuInicioSesionCliente(){
 ///////////////////////////////////////////////
 ///////////////MENU CLIENTE/////////////////////
 ///////////////////////////////////////////////
-
-char menu::menuCliente(){
-	printf("\n");
-	printf("------------------\n");
-	printf("REGISTRO CLIENTE\n");
-	printf("------------------\n");
-	printf("1. Iniciar sesion como cliente \n");
-    printf("2.Registrarse como nuevo cliente \n");
-    printf("Pulsar 'q' para salir \n");
-    printf("\n");
-    printf("Opcion: ");
-    fflush(stdout);
-    char linea[10];
-    fgets(linea, 10,stdin);
-    return linea[0];
-}
 
 char menu::menuAplicacionCliente(){
 	printf("\n");
