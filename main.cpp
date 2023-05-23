@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 #include <stdio.h>
-#include <string.h>
+#include "string.h"
 #include <winsock2.h>
 //#include <stdlib.h>
 
@@ -25,10 +25,10 @@ void menuCliente()
 	cout<<"0. Salir"<<endl;
 	cout<<"Opcion:  ";
 
-//	fflush(stdout);
+	fflush(stdout);
 	int opcion;
 	cin>>opcion;
-//	fflush(stdout);
+	fflush(stdout);
 
 	if(opcion == 1)
 	{
@@ -94,101 +94,101 @@ int main(){
 		closesocket(s);
 		WSACleanup();
 }
-//void main2(void) {
-//	char opcion;
-//	char opcion2;
-//	char opcion3;
-//	int opcionInicioSesionGestor;
+void main2(void) {
+	char opcion;
+	char opcion2;
+	char opcion3;
+	int opcionInicioSesionGestor;
+
+do{
+		opcion2 = menuCliente();
+		switch(opcion2 ){
+		case '1':
+			//Inicio sesion cliente
+			menuInicioSesionCliente();
+
+			//menuAplicacionCliente();
+
+			do{
+				opcion3 = menuAplicacionCliente();
+
+				switch(opcion3){
+
+				case '1':
+					//añadir producto al carrito
+
+					menuAnadirProductoCliente();
+					break;
+
+				case '2':
+					//Ver mi carrito
+					//imprimirCarrito(c);
+					printf("Se imprime el carrito \n");
+					break;
+//							//funcion
+//							do{
+//								opncion4 = funcion
+//										switch(opcion4){
+//										case '1':
+//											//CONFIRMAR
+									//FUNCION CONFIRMAR
+//										case '2';
+//											//ELIMINAR PROD
+										//FUNCION ELIMINAR
+//													do{
+//														opncion5 = funcion
+//														switch(opcion4){
+//															//funcion eliminar
+//														}
+//													}while(opcion != 'q');
 //
-//do{
-//		opcion2 = menuCliente();
-//		switch(opcion2 ){
-//		case '1':
-//			//Inicio sesion cliente
-//			menuInicioSesionCliente();
-//
-//			//menuAplicacionCliente();
-//
-//			do{
-//				opcion3 = menuAplicacionCliente();
-//
-//				switch(opcion3){
-//
-//				case '1':
-//					//añadir producto al carrito
-//
-//					menuAnadirProductoCliente();
-//					break;
-//
-//				case '2':
-//					//Ver mi carrito
-//					//imprimirCarrito(c);
-//					printf("Se imprime el carrito \n");
-//					break;
-////							//funcion
-////							do{
-////								opncion4 = funcion
-////										switch(opcion4){
-////										case '1':
-////											//CONFIRMAR
-//									//FUNCION CONFIRMAR
-////										case '2';
-////											//ELIMINAR PROD
-//										//FUNCION ELIMINAR
-////													do{
-////														opncion5 = funcion
-////														switch(opcion4){
-////															//funcion eliminar
-////														}
-////													}while(opcion != 'q');
-////
-////										}
-////							}while(opcion != 'q');
-//
-//				case '3':
-//					//Lista de mis pedidos
-//					printf("Se imprimen los pedidos \n");
-//					break;
-//
-//					//funcion
-//					//							do{
-//					//								opncion4 = funcion
-//					//										switch(opcion4){
-//					//										case '1':
-//					//											//IMPRIMIR LISTA DE PEDIDOS
-//
-//					//										case '2';
-//					//											//ELIMINAR PEDIDO
-//																	//FUNCION ELIMINAR
-//					//													do{
-//					//														opncion5 = funcion
-//					//														switch(opcion4){
-//					//															//funcion eliminar
-//					//														}
-//					//													}while(opcion != 'q');
-//					//
-//					//										}
-//					//							}while(opcion != 'q');
-//
-//
-//				case 'q':
-//					break;
-//
-//				}
-//
-//
-//
-//			}while(opcion3 != 'q');
-//			break;
-//
-//		case '2':
-//			//Crear cuenta de cliente
-//			menuCrearCuentaCliente();
-//
-//		case 'q':
-//			break;
-//		}
-//
-//	//break;
-//	}while(opcion2 != 'q');
-//}
+//										}
+//							}while(opcion != 'q');
+
+				case '3':
+					//Lista de mis pedidos
+					printf("Se imprimen los pedidos \n");
+					break;
+
+					//funcion
+					//							do{
+					//								opncion4 = funcion
+					//										switch(opcion4){
+					//										case '1':
+					//											//IMPRIMIR LISTA DE PEDIDOS
+
+					//										case '2';
+					//											//ELIMINAR PEDIDO
+																	//FUNCION ELIMINAR
+					//													do{
+					//														opncion5 = funcion
+					//														switch(opcion4){
+					//															//funcion eliminar
+					//														}
+					//													}while(opcion != 'q');
+					//
+					//										}
+					//							}while(opcion != 'q');
+
+
+				case 'q':
+					break;
+
+				}
+
+
+
+			}while(opcion3 != 'q');
+			break;
+
+		case '2':
+			//Crear cuenta de cliente
+			menuCrearCuentaCliente();
+
+		case 'q':
+			break;
+		}
+
+	//break;
+	}while(opcion2 != 'q');
+}
