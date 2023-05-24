@@ -116,7 +116,10 @@ void menuEnviarCarrito(){
 			cin>>dni;
 			strcpy(sendBuff, dni);
 			send(s, sendBuff, sizeof(sendBuff), 0);
-
+			carrito = Carrito(30);
+			cout<<"Carrito enviado, pedido creado"<<endl;
+			fflush(stdout);
+			menuAplicacionCliente();
 		} else if(opcion == 2) {
 			menuAplicacionCliente();
 		} else{
