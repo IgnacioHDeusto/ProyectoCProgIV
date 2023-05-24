@@ -16,6 +16,129 @@ char sendBuff[512], recvBuff[512];
 #include <iostream>
 using namespace std;
 
+void menuAplicacionCliente();
+void menuRegistrarCliente();
+void menuInicioSesionCliente();
+void menuCliente();
+
+void menuAplicacionCliente(){
+		cout<<"------------------"<<endl<<"MENU CLIENTE"<<endl << "------------------" << endl;
+		cout<<"1. Añadir producto a mi carrito"<<endl;
+		cout<<"2. Ver mi carrito"<<endl;
+		cout<<"3. Lista de pedidos"<<endl;
+		cout<<"0. Salir"<<endl;
+		cout<<"Opcion:  ";
+
+		fflush(stdout);
+		int opcion;
+		cin>>opcion;
+		fflush(stdout);
+
+		if(opcion == 1) {
+	//		menuAnadirProducto();
+		} else if(opcion == 2) {
+	//		VerCarrito();
+		} else if(opcion == 3) {
+			//ListaPedidos();
+		} else if(opcion == 0) {
+			strcpy(sendBuff, "EXIT");
+			send(s, sendBuff, sizeof(sendBuff), 0);
+			exit(-1);
+
+		}else{
+			menuAplicacionCliente();
+		}
+}
+
+void menuRegistrarCliente(){
+	char dni[10];
+	char nombre[20];
+	char dir[30];
+	int tlf;
+	int cod_ciu;
+	char contrasena[30];
+
+	cout<<"------------------"<<endl<<"CREAR NUEVA CUENTA"<<endl << "------------------" << endl;
+
+	cout<< "Introduzca su Nombre:" << endl;
+	fflush(stdout);
+	cin>>nombre;
+	cout<< "Introduzca su Contraseña:" << endl;
+	fflush(stdout);
+	cin>>contrasena;
+	cout<< "Introduzca su DNI:" << endl;
+	fflush(stdout);
+	cin>>dni;
+	cout<< "Introduzca su Direccion:" << endl;
+	fflush(stdout);
+	cin>>dir;
+	cout<< "Introduzca su Codigo de ciudad:" << endl;
+	fflush(stdout);
+	cin>>cod_ciu;
+	cout<< "Introduzca su Telefono:" << endl;
+	fflush(stdout);
+	cin>>tlf;
+
+
+	strcpy(sendBuff, "RegistrarCliente");
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	strcpy(sendBuff, dni);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	strcpy(sendBuff, nombre);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	strcpy(sendBuff, dir);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	sprintf(sendBuff, "%d", tlf);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	sprintf(sendBuff, "%d", cod_ciu);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	strcpy(sendBuff, contrasena);
+	recv(s, recvBuff, sizeof(recvBuff), 0);
+
+	if (strcmp(recvBuff, "UsuarioE") == 0) {
+		cout<< "DNI ya registrado";
+	} else if(strcmp(recvBuff, "RegistroM") == 0){
+		cout<< "Cliente mal registrado";
+	} else{
+
+		cout<< "Cliente registrado";
+	}
+	fflush(stdout);
+	menuCliente();
+}
+void menuInicioSesionCliente(){
+	char dni[10];
+	char contrasena[30];
+	cout<<"------------------"<<endl<<"INICIO DE SESION CLIENTE"<<endl << "------------------" << endl;
+	cout<< "Introduzca su DNI:" << endl;
+	fflush(stdout);
+	cin>>dni;
+	cout<< "Introduzca su Contraseña:" <<endl;
+	fflush(stdout);
+	cin>>contrasena;
+
+	strcpy(sendBuff, "ComprobarCliente");
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	strcpy(sendBuff, dni);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+	strcpy(sendBuff, contrasena);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+
+	recv(s, recvBuff, sizeof(recvBuff), 0);
+
+	if (strcmp(recvBuff, "Usuario Correcto") == 0) {
+		cout << "Se ha iniciado sesion" << endl;
+		fflush(stdout);
+
+		menuAplicacionCliente();
+	} else {
+		cout << "No se ha iniciado sesion: DNI o contrasena incorrectos"<< endl;
+
+		fflush(stdout);
+		menuCliente();
+	}
+}
+
 
 void menuCliente()
 {
@@ -32,10 +155,10 @@ void menuCliente()
 
 	if(opcion == 1)
 	{
-//		menuInicioSesionCliente();
+		menuInicioSesionCliente();
 	} else if(opcion == 2)
 	{
-//		menuCrearCuentaCliente();
+		menuRegistrarCliente();
 	} else if(opcion == 0)
 	{
 		strcpy(sendBuff, "EXIT");
@@ -47,10 +170,6 @@ void menuCliente()
 	}
 }
 
-void menuInicioSesionCliente(){
-	cout<<"------------------"<<endl<<"INICIO DE SESION CLIENTE"<<endl << "------------------" << endl;
-
-}
 
 
 int main(){
@@ -94,101 +213,101 @@ int main(){
 		closesocket(s);
 		WSACleanup();
 }
-void main2(void) {
-	char opcion;
-	char opcion2;
-	char opcion3;
-	int opcionInicioSesionGestor;
-
-do{
-		opcion2 = menuCliente();
-		switch(opcion2 ){
-		case '1':
-			//Inicio sesion cliente
-			menuInicioSesionCliente();
-
-			//menuAplicacionCliente();
-
-			do{
-				opcion3 = menuAplicacionCliente();
-
-				switch(opcion3){
-
-				case '1':
-					//añadir producto al carrito
-
-					menuAnadirProductoCliente();
-					break;
-
-				case '2':
-					//Ver mi carrito
-					//imprimirCarrito(c);
-					printf("Se imprime el carrito \n");
-					break;
-//							//funcion
-//							do{
-//								opncion4 = funcion
-//										switch(opcion4){
-//										case '1':
-//											//CONFIRMAR
-									//FUNCION CONFIRMAR
-//										case '2';
-//											//ELIMINAR PROD
-										//FUNCION ELIMINAR
-//													do{
-//														opncion5 = funcion
-//														switch(opcion4){
-//															//funcion eliminar
-//														}
-//													}while(opcion != 'q');
+//void main2(void) {
+//	char opcion;
+//	char opcion2;
+//	char opcion3;
+//	int opcionInicioSesionGestor;
 //
-//										}
-//							}while(opcion != 'q');
-
-				case '3':
-					//Lista de mis pedidos
-					printf("Se imprimen los pedidos \n");
-					break;
-
-					//funcion
-					//							do{
-					//								opncion4 = funcion
-					//										switch(opcion4){
-					//										case '1':
-					//											//IMPRIMIR LISTA DE PEDIDOS
-
-					//										case '2';
-					//											//ELIMINAR PEDIDO
-																	//FUNCION ELIMINAR
-					//													do{
-					//														opncion5 = funcion
-					//														switch(opcion4){
-					//															//funcion eliminar
-					//														}
-					//													}while(opcion != 'q');
-					//
-					//										}
-					//							}while(opcion != 'q');
-
-
-				case 'q':
-					break;
-
-				}
-
-
-
-			}while(opcion3 != 'q');
-			break;
-
-		case '2':
-			//Crear cuenta de cliente
-			menuCrearCuentaCliente();
-
-		case 'q':
-			break;
-		}
-
-	//break;
-	}while(opcion2 != 'q');
-}
+//do{
+//		opcion2 = menuCliente();
+//		switch(opcion2 ){
+//		case '1':
+//			//Inicio sesion cliente
+//			menuInicioSesionCliente();
+//
+//			//menuAplicacionCliente();
+//
+//			do{
+//				opcion3 = menuAplicacionCliente();
+//
+//				switch(opcion3){
+//
+//				case '1':
+//					//añadir producto al carrito
+//
+//					menuAnadirProductoCliente();
+//					break;
+//
+//				case '2':
+//					//Ver mi carrito
+//					//imprimirCarrito(c);
+//					printf("Se imprime el carrito \n");
+//					break;
+////							//funcion
+////							do{
+////								opncion4 = funcion
+////										switch(opcion4){
+////										case '1':
+////											//CONFIRMAR
+//									//FUNCION CONFIRMAR
+////										case '2';
+////											//ELIMINAR PROD
+//										//FUNCION ELIMINAR
+////													do{
+////														opncion5 = funcion
+////														switch(opcion4){
+////															//funcion eliminar
+////														}
+////													}while(opcion != 'q');
+////
+////										}
+////							}while(opcion != 'q');
+//
+//				case '3':
+//					//Lista de mis pedidos
+//					printf("Se imprimen los pedidos \n");
+//					break;
+//
+//					//funcion
+//					//							do{
+//					//								opncion4 = funcion
+//					//										switch(opcion4){
+//					//										case '1':
+//					//											//IMPRIMIR LISTA DE PEDIDOS
+//
+//					//										case '2';
+//					//											//ELIMINAR PEDIDO
+//																	//FUNCION ELIMINAR
+//					//													do{
+//					//														opncion5 = funcion
+//					//														switch(opcion4){
+//					//															//funcion eliminar
+//					//														}
+//					//													}while(opcion != 'q');
+//					//
+//					//										}
+//					//							}while(opcion != 'q');
+//
+//
+//				case 'q':
+//					break;
+//
+//				}
+//
+//
+//
+//			}while(opcion3 != 'q');
+//			break;
+//
+//		case '2':
+//			//Crear cuenta de cliente
+//			menuCrearCuentaCliente();
+//
+//		case 'q':
+//			break;
+//		}
+//
+//	//break;
+//	}while(opcion2 != 'q');
+//}
