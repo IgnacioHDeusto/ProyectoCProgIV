@@ -1,13 +1,8 @@
-/*
- * Provincia.h
- *
- *  Created on: 22 may 2023
- *      Author: Iñaki
- */
-
 #ifndef DATOS_PROVINCIA_H_
 #define DATOS_PROVINCIA_H_
-
+#include "string.h"
+#include <iostream>
+using namespace std;
 class Provincia {
 protected:
 	int cod_prov;

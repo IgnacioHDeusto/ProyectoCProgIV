@@ -35,9 +35,9 @@ void Carrito::imprimirCarrito()
     cout << "-------------------------" << endl;
     cout << "        TU CARRITO       " << endl;
     cout << "-------------------------" << endl;
-    for (int i = 0; i < this->numProductos; ++i)
+    for (int i = 1; i < this->numProductos + 1; ++i)
     {
-        this->productos[i].imprimirProducto();
+		cout << "ID:  " << this->productos[i].id_prod <<  endl;
         fflush(stdout);
     }
 }

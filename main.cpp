@@ -1,4 +1,3 @@
-#include "menus/menu.h"
 #include <iostream>
 using namespace std;
 #include <stdio.h>
@@ -6,7 +5,7 @@ using namespace std;
 #include <winsock2.h>
 #include "datos/Producto/Producto.h"
 #include "datos/Producto/Carrito.h"
-
+#include "datos/Pedido/Pedido.h"
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
@@ -22,12 +21,9 @@ void menuRegistrarCliente();
 void menuInicioSesionCliente();
 void menuCliente();
 void menuAnadirProducto();
-void menuConfirmarCarrito();
-void eliminarProductoCarrito();
-void menuBorrarCarrito();
 void mostrarProductos();
-void verCarrito();
 Carrito carrito(30);
+
 
 void mostrarProductos(){
 	strcpy(sendBuff, "MostrarProductos");
@@ -37,7 +33,6 @@ void mostrarProductos(){
 	while(1){
 		int id_prod, cod_cat, precio;
 		char nombre[20], descripcion[30], tamanyo[10];
-
 		id_prod = atoi(recvBuff);
 		recv(s, recvBuff, sizeof(recvBuff), 0);
 		strcpy(nombre, (char*) recvBuff);
@@ -100,11 +95,41 @@ void menuAnadirProducto(){
     }
 }
 
+void menuEnviarCarrito(){
+		cout<<"------------------"<<endl<<"MENU CLIENTE"<<endl << "------------------" << endl;
+		cout<<"¿Seguro que quieres enviar el carrito?"<<endl;
+		cout<<"1. SI"<<endl;
+		cout<<"2. NO"<<endl;
+		cout<<"Opcion:  ";
+
+		fflush(stdout);
+		int opcion;
+		cin>>opcion;
+		fflush(stdout);
+
+		if(opcion == 1) {
+			char dni[10];
+			strcpy(sendBuff, "EnviarCarrito");
+			send(s, sendBuff, sizeof(sendBuff), 0);
+			cout<<"Por motivos de seguridad vuelva a introducir su dni"<<endl;
+			fflush(stdout);
+			cin>>dni;
+			strcpy(sendBuff, dni);
+			send(s, sendBuff, sizeof(sendBuff), 0);
+
+		} else if(opcion == 2) {
+			menuAplicacionCliente();
+		} else{
+			menuEnviarCarrito();
+		}
+}
+
+
 void menuAplicacionCliente(){
 		cout<<"------------------"<<endl<<"MENU CLIENTE"<<endl << "------------------" << endl;
 		cout<<"1. Añadir producto a mi carrito"<<endl;
 		cout<<"2. Ver mi carrito"<<endl;
-		cout<<"3. Lista de pedidos"<<endl;
+		cout<<"3. Enviar Carrito"<<endl;
 		cout<<"0. Salir"<<endl;
 		cout<<"Opcion:  ";
 
@@ -117,8 +142,9 @@ void menuAplicacionCliente(){
 			menuAnadirProducto();
 		} else if(opcion == 2) {
 			carrito.imprimirCarrito();
+			menuAplicacionCliente();
 		} else if(opcion == 3) {
-			//ListaPedidos();
+			menuEnviarCarrito();
 		} else if(opcion == 0) {
 			menuCliente();
 		}else{
@@ -246,126 +272,6 @@ void menuCliente(){
 		menuCliente();
 	}
 }
-
-void menuConfirmarCarrito(){
-    cout<<"------------------"<<endl<<"TU CARRITO"<<endl<<"------------------" << endl;
-
-    cout<<"¿Seguro que quieres confirmar tu carrito?"<<endl;
-    cout<<"1. Comprar"<<endl;
-    cout<<"2. Atras"<<endl;
-
-    fflush(stdout);
-    int opcion;
-    cin>>opcion;
-    fflush(stdout);
-
-    if (opcion == 1) {
-        strcpy(sendBuff, "ConfirmarCarrito");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-    } else if(opcion == 2)
-    {
-        strcpy(sendBuff, "EXIT");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-        exit(-1);
-
-    }
-
-}
-
-void eliminarProductoCarrito(){
-    cout<<"------------------"<<endl<<"ELIGE QUE PRODUCTO QUIERES ELIMINAR"<<endl<<"------------------" << endl;
-
-        strcpy(sendBuff, "MostrarCarrito");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-
-        cout<<"Codigo del producto: "<<endl;
-
-        fflush(stdout);
-        char cod_producto[20];
-        cin>>cod_producto;
-
-        strcpy(sendBuff, "BorrarProductoCarrito");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-        strcpy(sendBuff, cod_producto);
-        send(s, sendBuff, sizeof(sendBuff), 0);
-
-        recv(s, recvBuff, sizeof(recvBuff), 0);
-
-        if (strcmp(recvBuff, "Producto eliminado") == 0) {
-                cout << "Producto eliminado correctamente" << endl;
-                fflush(stdout);
-
-                menuAplicacionCliente();
-
-        }else {
-            cout << "Producto incorrecto"<< endl;
-
-            fflush(stdout);
-
-            menuAplicacionCliente();
-        }
-}
-
-
-void menuBorrarCarrito(){
-    cout<<"------------------"<<endl<<"TU CARRITO"<<endl<<"------------------" << endl;
-
-    cout<<"¿Seguro que quieres borra tu carrito?"<<endl;
-    cout<<"1. Borrar"<<endl;
-    cout<<"2. Atras"<<endl;
-
-    fflush(stdout);
-    int opcion;
-    cin>>opcion;
-    fflush(stdout);
-
-    if (opcion == 1) {
-        strcpy(sendBuff, "BorrarCarrito");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-    } else if(opcion == 2)
-    {
-        strcpy(sendBuff, "EXIT");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-        exit(-1);
-
-    }
-}
-
-void menuCarrito(){
-    cout<<"------------------"<<endl<<"TU CARRITO"<<endl<<"------------------" << endl;
-
-    strcpy(sendBuff, "MostrarCarrito");
-    send(s, sendBuff, sizeof(sendBuff), 0);
-
-    cout<<"1. Confirmar carrito"<<endl;
-    cout<<"2. Eliminar producto del carrito"<<endl;
-    cout<<"3. Borrar carrito"<<endl;
-    cout<<"0. Atras"<<endl;
-
-    fflush(stdout);
-    int opcion;
-    cin>>opcion;
-    fflush(stdout);
-
-    if(opcion == 1)
-    {
-        menuConfirmarCarrito();
-    } else if(opcion == 2)
-    {
-        eliminarProductoCarrito();
-    }else if(opcion == 3)
-    {
-        menuBorrarCarrito();
-    } else if(opcion == 0)
-    {
-        strcpy(sendBuff, "EXIT");
-        send(s, sendBuff, sizeof(sendBuff), 0);
-        exit(-1);
-
-    }
-
-}
-
 
 int main(){
 	WSADATA wsaData;
