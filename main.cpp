@@ -20,6 +20,41 @@ void menuAplicacionCliente();
 void menuRegistrarCliente();
 void menuInicioSesionCliente();
 void menuCliente();
+void menuAnadirProducto();
+
+void menuAnadirProducto(){
+    cout<<"------------------"<<endl<<"ELIGE UN PRODUCTO"<<endl<<"------------------" << endl;
+
+    strcpy(sendBuff, "MostrarProductos");
+    send(s, sendBuff, sizeof(sendBuff), 0);
+
+    cout<<"Codigo del producto: "<<endl;
+
+    fflush(stdout);
+    char cod_producto[20];
+    cin>>cod_producto;
+
+    strcpy(sendBuff, "AnadirProducto");
+    send(s, sendBuff, sizeof(sendBuff), 0);
+    strcpy(sendBuff, cod_producto);
+    send(s, sendBuff, sizeof(sendBuff), 0);
+
+    recv(s, recvBuff, sizeof(recvBuff), 0);
+
+    if (strcmp(recvBuff, "Producto anadido") == 0) {
+            cout << "Producto añadido correctamente" << endl;
+            fflush(stdout);
+
+            menuAplicacionCliente();
+
+    }else {
+        cout << "Producto incorrecto"<< endl;
+
+        fflush(stdout);
+
+        menuAplicacionCliente();
+    }
+}
 
 void menuAplicacionCliente(){
 		cout<<"------------------"<<endl<<"MENU CLIENTE"<<endl << "------------------" << endl;
@@ -35,16 +70,13 @@ void menuAplicacionCliente(){
 		fflush(stdout);
 
 		if(opcion == 1) {
-	//		menuAnadirProducto();
+			menuAnadirProducto();
 		} else if(opcion == 2) {
 	//		VerCarrito();
 		} else if(opcion == 3) {
 			//ListaPedidos();
 		} else if(opcion == 0) {
-			strcpy(sendBuff, "EXIT");
-			send(s, sendBuff, sizeof(sendBuff), 0);
-			exit(-1);
-
+			menuCliente();
 		}else{
 			menuAplicacionCliente();
 		}
@@ -93,15 +125,16 @@ void menuRegistrarCliente(){
 	sprintf(sendBuff, "%d", cod_ciu);
 	send(s, sendBuff, sizeof(sendBuff), 0);
 	strcpy(sendBuff, contrasena);
+	send(s, sendBuff, sizeof(sendBuff), 0);
+
 	recv(s, recvBuff, sizeof(recvBuff), 0);
 
 	if (strcmp(recvBuff, "UsuarioE") == 0) {
-		cout<< "DNI ya registrado";
+		cout<< "DNI ya registrado" << endl;
 	} else if(strcmp(recvBuff, "RegistroM") == 0){
-		cout<< "Cliente mal registrado";
+		cout<< "Cliente mal registrado" << endl;
 	} else{
-
-		cout<< "Cliente registrado";
+		cout<< "Cliente registrado" << endl;
 	}
 	fflush(stdout);
 	menuCliente();
