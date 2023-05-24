@@ -4,7 +4,8 @@ using namespace std;
 #include <stdio.h>
 #include "string.h"
 #include <winsock2.h>
-//#include <stdlib.h>
+#include "datos/Producto/Producto.h"
+#include "datos/Producto/Carrito.h"
 
 
 #define SERVER_IP "127.0.0.1"
@@ -24,21 +25,60 @@ void menuAnadirProducto();
 void menuConfirmarCarrito();
 void eliminarProductoCarrito();
 void menuBorrarCarrito();
+void mostrarProductos();
+void verCarrito();
+Carrito carrito(30);
+
+void mostrarProductos(){
+	strcpy(sendBuff, "MostrarProductos");
+	send(s, sendBuff, sizeof(sendBuff), 0);
+
+	recv(s, recvBuff, sizeof(recvBuff), 0);
+	while(1){
+		int id_prod, cod_cat, precio;
+		char nombre[20], descripcion[30], tamanyo[10];
+
+		id_prod = atoi(recvBuff);
+		recv(s, recvBuff, sizeof(recvBuff), 0);
+		strcpy(nombre, (char*) recvBuff);
+		recv(s, recvBuff, sizeof(recvBuff), 0);
+		strcpy(descripcion, (char*) recvBuff);
+		recv(s, recvBuff, sizeof(recvBuff), 0);
+		cod_cat = atoi(recvBuff);
+		recv(s, recvBuff, sizeof(recvBuff), 0);
+		precio = atoi(recvBuff);
+		recv(s, recvBuff, sizeof(recvBuff), 0);
+		strcpy(tamanyo, (char*) recvBuff);
+
+		Producto p(id_prod, nombre, descripcion, cod_cat, precio, tamanyo);
+		p.imprimirProducto();
+
+		fflush(stdout);
+
+		recv(s, recvBuff, sizeof(recvBuff), 0);
+		if(strcmp(recvBuff, "FIN") == 0){
+			break;
+		}
+
+	};
+}
 
 void menuAnadirProducto(){
+	char cod_producto[5];
     cout<<"------------------"<<endl<<"ELIGE UN PRODUCTO"<<endl<<"------------------" << endl;
-
-    strcpy(sendBuff, "MostrarProductos");
-    send(s, sendBuff, sizeof(sendBuff), 0);
-
-    cout<<"Codigo del producto: "<<endl;
+    fflush(stdout);
+    mostrarProductos();
+    fflush(stdout);
+    cout<<endl <<"Codigo del producto: "<<endl;
 
     fflush(stdout);
-    char cod_producto[20];
+
     cin>>cod_producto;
+    fflush(stdout);
 
     strcpy(sendBuff, "AnadirProducto");
     send(s, sendBuff, sizeof(sendBuff), 0);
+    fflush(stdout);
     strcpy(sendBuff, cod_producto);
     send(s, sendBuff, sizeof(sendBuff), 0);
 
@@ -47,7 +87,8 @@ void menuAnadirProducto(){
     if (strcmp(recvBuff, "Producto anadido") == 0) {
             cout << "Producto añadido correctamente" << endl;
             fflush(stdout);
-
+            carrito.numProductos++;
+            carrito.productos[carrito.numProductos].id_prod = atoi(cod_producto);
             menuAplicacionCliente();
 
     }else {
@@ -75,7 +116,7 @@ void menuAplicacionCliente(){
 		if(opcion == 1) {
 			menuAnadirProducto();
 		} else if(opcion == 2) {
-	//		VerCarrito();
+			carrito.imprimirCarrito();
 		} else if(opcion == 3) {
 			//ListaPedidos();
 		} else if(opcion == 0) {
@@ -142,6 +183,7 @@ void menuRegistrarCliente(){
 	fflush(stdout);
 	menuCliente();
 }
+
 void menuInicioSesionCliente(){
 	char dni[10];
 	char contrasena[30];
@@ -176,8 +218,7 @@ void menuInicioSesionCliente(){
 }
 
 
-void menuCliente()
-{
+void menuCliente(){
 	cout<<"------------------"<<endl<<"DEUSTO IMPERIO MODA"<<endl << "------------------" << endl;
 	cout<<"1. Iniciar Sesion"<<endl;
 	cout<<"2. Registrarse"<<endl;
@@ -288,7 +329,7 @@ void menuBorrarCarrito(){
         exit(-1);
 
     }
-
+}
 
 void menuCarrito(){
     cout<<"------------------"<<endl<<"TU CARRITO"<<endl<<"------------------" << endl;

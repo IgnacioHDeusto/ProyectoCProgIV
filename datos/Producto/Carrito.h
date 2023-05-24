@@ -1,15 +1,16 @@
 #ifndef DATOS_PEDIDO_CARRITO_H_
 #define DATOS_PEDIDO_CARRITO_H_
-#include "Pedido.h"
+#include "Producto.h"
 
 class Carrito {
-protected:
-	Pedido * pedidos;
-	int numPedidos;
 public:
+	Producto* productos;
+	int numProductos;
 	Carrito();
-	Carrito(Pedido* , int);
+	Carrito(int);
 	virtual ~Carrito();
+	void EliminarProd(int id);
+	void imprimirCarrito();
 };
 
 #endif /* DATOS_PEDIDO_CARRITO_H_ */
